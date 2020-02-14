@@ -7,6 +7,7 @@ function App() {
   const [ projects, setProjects ] = useState([])
   const [ newProject, setNewProject ] = useState({})
 
+
   useEffect(() => {
     axios
     .get(`http://localhost:5000/api/projects`)
@@ -28,7 +29,7 @@ function App() {
 
   const handleNew = e => {
     e.preventDefault();
-    console.log(newProject)
+    // console.log(newProject)
     axios
     .post(`http://localhost:5000/api/projects`, newProject)
     .then(res => {
@@ -40,6 +41,19 @@ function App() {
     })
     .catch(err => console.log(err))
   }
+
+  const handleDelete = id => {
+    // console.log(id)
+    axios
+    .delete(`http://localhost:5000/api/projects/${id}`)
+    .then(res => {
+      axios
+      .get(`http://localhost:5000/api/projects`)
+      .then(res => {
+        setProjects(res.data)
+      })
+    })
+  }
   return (
     <>
     <h1>Projects {'&'} Actions Challenge</h1>
@@ -49,7 +63,7 @@ function App() {
         <h3>{p.name}</h3>
         <p>Project Description:{p.description}</p>
         <p>Project Completed: {p.completed === false ? 'Not Completed' : 'Complete'}</p>
-        <p><span>[Edit]</span> <span>[Delete]</span> <span>[Mark As Complete]</span> <span>[Actions]</span></p>
+        <p><span>[Edit]</span> <span onClick={() => handleDelete(p.id)}>[Delete]</span> <span>[Mark As Complete]</span> <span>[Actions]</span></p>
       </div>
     ))}
     <hr/>
