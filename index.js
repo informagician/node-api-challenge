@@ -102,6 +102,15 @@ server.put('/api/actions/:id', (req,res) => {
     })
 })
 
+server.delete('/api/actions/:id', (req,res) => {
+    const id = req.params.id
+    Actions.remove(id).then(actions => {
+        res.status(200).json(actions)
+    }).catch(err => {
+        res.status(500).json({errorMessage:"something went wrong with deleting actions"})
+    })
+})
+
 const port = 5000;
 
 server.listen(port, () => {
