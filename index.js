@@ -16,18 +16,21 @@ const express = require('express');
 const server = express();
 server.use(express.json());
 const Projects = require('./data/helpers/projectModel')
+const Actions = require('./data/helpers/actionModel')
 
 
 server.get('/', (req,res) => {
     res.status(200).json('Its Working')
 })
 
+
+// Projects CRUD
 server.get('/api/projects', (req,res) => {
     Projects.get().then(p => {
         res.status(200).json(p)
     }).catch(err => {
-        res.status(500).json('something went wrong')
-    })
+        res.status(500).json({errorMessage:"something went wrong with get"})
+    }) 
 })
 
 server.post('/api/projects', (req,res) => {
@@ -36,7 +39,7 @@ server.post('/api/projects', (req,res) => {
     Projects.insert(project).then(project => {
         res.status(201).json(project)
     }).catch(err => {
-        res.status(500).json('something went wrong inserting')
+        res.status(500).json({errorMessage:"something went wrong with insert"})
     })
 })
 
@@ -47,7 +50,7 @@ server.put('/api/projects/:id', (req,res) => {
     Projects.update(id,changes).then(project => {
         res.status(200).json(changes)
     }).catch(err => {
-        res.status(500).json('something went wrong Updating')
+        res.status(500).json({errorMessage:"something went wrong with update"})
     })
 })
 
@@ -57,7 +60,7 @@ server.delete('/api/projects/:id', (req,res) => {
     Projects.remove(id).then(projects => {
         res.status(200).json(projects)
     }).catch(err => {
-        res.status(500).json('something went wrong Deleting')
+        res.status(500).json({errorMessage:"something went wrong with delete"})
     })
 })
 
@@ -66,7 +69,17 @@ server.get('/api/projects/:id/actions', (req,res) => {
     Projects.getProjectActions(id).then(actions => {
         res.status(200).json(actions)
     }).catch(er => {
-        res.status(500).json('something went wrong Getting Actions')
+        res.status(500).json({errorMessage:"something went wrong with getting actions"})
+    })
+})
+
+// Projects Action CRUD
+server.get('/api/actions/:id', (req,res) => {
+    const id = req.params.id
+    Actions.get(id).then(action => {
+        res.status(200).json(action)
+    }).catch(err => {
+        res.status(500).json({errorMessage:"something went wrong with get"})
     })
 })
 
