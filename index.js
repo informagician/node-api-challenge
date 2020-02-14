@@ -61,6 +61,15 @@ server.delete('/api/projects/:id', (req,res) => {
     })
 })
 
+server.get('/api/projects/:id/actions', (req,res) => {
+    const id = req.params.id
+    Projects.getProjectActions(id).then(actions => {
+        res.status(200).json(actions)
+    }).catch(er => {
+        res.status(500).json('something went wrong Getting Actions')
+    })
+})
+
 
 const port = 5000;
 
