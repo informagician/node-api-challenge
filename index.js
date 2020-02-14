@@ -14,7 +14,25 @@ Go code!
 */
 const express = require('express');
 const server = express();
+server.use(express.json());
+const Projects = require('./data/helpers/projectModel')
+
+
+server.get('/', (req,res) => {
+    res.status(200).json('Its Working')
+})
+
+server.get('/api/projects', (req,res) => {
+    Projects.get().then(p => {
+        res.status(200).json(p)
+    }).catch(err => {
+        res.status(500).json('something went wrong')
+    })
+})
+
+
 const port = 5000;
+
 server.listen(port, () => {
     console.log(`\n* Server Running on Port ${port}*\n`)
 })
