@@ -45,9 +45,19 @@ server.put('/api/projects/:id', (req,res) => {
     const changes = req.body
 
     Projects.update(id,changes).then(project => {
-        res.status(201).json(changes)
+        res.status(200).json(changes)
     }).catch(err => {
         res.status(500).json('something went wrong Updating')
+    })
+})
+
+server.delete('/api/projects/:id', (req,res) => {
+    const id = req.params.id
+
+    Projects.remove(id).then(projects => {
+        res.status(200).json(projects)
+    }).catch(err => {
+        res.status(500).json('something went wrong Deleting')
     })
 })
 
