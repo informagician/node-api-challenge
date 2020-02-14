@@ -83,6 +83,14 @@ server.get('/api/actions/:id', (req,res) => {
     })
 })
 
+server.post('/api/actions', (req,res) => {
+    const action = req.body
+    Actions.insert(action).then(actions => {
+        res.status(201).json(actions)
+    }).catch(err => {
+        res.status(500).json({errorMessage:"something went wrong with insert"})
+    })
+})
 
 const port = 5000;
 
