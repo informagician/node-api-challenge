@@ -67,7 +67,7 @@ function validateProjectId(req,res,next){
 function validateNewProject(req, res, next) {
     // do your magic!
     const body = req.body;
-
+    console.log(body)
     if(Object.keys(body).length === 0){
         res.status(400).json({ message: "missing project data" })
     } else if (!body.name) {
