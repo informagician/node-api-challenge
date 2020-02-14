@@ -40,6 +40,17 @@ server.post('/api/projects', (req,res) => {
     })
 })
 
+server.put('/api/projects/:id', (req,res) => {
+    const id = req.params.id
+    const changes = req.body
+
+    Projects.update(id,changes).then(project => {
+        res.status(201).json(changes)
+    }).catch(err => {
+        res.status(500).json('something went wrong Updating')
+    })
+})
+
 
 const port = 5000;
 
