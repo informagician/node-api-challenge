@@ -30,6 +30,16 @@ server.get('/api/projects', (req,res) => {
     })
 })
 
+server.post('/api/projects', (req,res) => {
+    const project = req.body
+
+    Projects.insert(project).then(project => {
+        res.status(201).json(project)
+    }).catch(err => {
+        res.status(500).json('something went wrong inserting')
+    })
+})
+
 
 const port = 5000;
 
