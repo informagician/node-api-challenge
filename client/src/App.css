@@ -1,0 +1,7 @@
+span {
+    color:red;
+    cursor: pointer;
+}
+input[type="text"]{
+    display: block;
+}

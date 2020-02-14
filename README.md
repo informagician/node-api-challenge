@@ -40,13 +40,23 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+Routing and Middleware
+
 - [ ] Describe Middleware?
+
+middleware interfaces between two processes and extends the features provided by the initial process. Middleware makes code more modular.
 
 - [ ] Describe a Resource?
 
+a database or any data structure that can be altered using API endpoints
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+status code 200 series and maybe a json or send message indicating success
+
 - [ ] How can we partition our application into sub-applications?
+
+Using routers we can make the server side code more modular, easier to maintain and create separation of logic.
 
 ## Minimum Viable Product
 
