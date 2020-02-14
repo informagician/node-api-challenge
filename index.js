@@ -14,10 +14,12 @@ Go code!
 */
 const express = require('express');
 const server = express();
+const cors = require('cors')
 
 const projectsRouter = require('./data/routers/projectsRouter');
 const actionsRouter = require('./data/routers/actionsRouter');
 server.use(express.json());
+server.use(cors());
 
 server.use('/api/projects', projectsRouter);
 server.use('/api/actions', actionsRouter);
