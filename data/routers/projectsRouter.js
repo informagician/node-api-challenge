@@ -13,7 +13,7 @@ router.get('/', (req,res) => {
     }) 
 })
 
-router.post('/', (req,res) => {
+router.post('/', validateNewProject, (req,res) => {
     const project = req.body
 
     Projects.insert(project).then(project => {
@@ -23,7 +23,7 @@ router.post('/', (req,res) => {
     })
 })
 
-router.put('/:id', (req,res) => {
+router.put('/:id', validateProjectId, validateEditProject, (req,res) => {
     const id = req.params.id
     const changes = req.body
 
@@ -34,7 +34,7 @@ router.put('/:id', (req,res) => {
     })
 })
 
-router.delete('/:id', (req,res) => {
+router.delete('/:id', validateProjectId, (req,res) => {
     const id = req.params.id
 
     Projects.remove(id).then(projects => {
@@ -44,7 +44,7 @@ router.delete('/:id', (req,res) => {
     })
 })
 
-router.get('/:id/actions', (req,res) => {
+router.get('/:id/actions', validateProjectId, (req,res) => {
     const id = req.params.id
     Projects.getProjectActions(id).then(actions => {
         res.status(200).json(actions)
@@ -52,5 +52,40 @@ router.get('/:id/actions', (req,res) => {
         res.status(500).json({errorMessage:"something went wrong with getting actions"})
     })
 })
+
+function validateProjectId(req,res,next){
+    const id = req.params.id
+    Projects.get(id).then(p => {
+        if(Object.keys(p).length > 0){
+            next()
+        }
+    }).catch(err => {
+        res.status(400).json({message:"Invalid Project Id"})
+    })
+}
+
+function validateNewProject(req, res, next) {
+    // do your magic!
+    const body = req.body;
+
+    if(Object.keys(body).length === 0){
+        res.status(400).json({ message: "missing project data" })
+    } else if (!body.name) {
+        res.status(400).json({ message: "missing required name field" })
+    } else if (!body.description) {
+        res.status(400).json({ message: "missing required description field" })
+    }
+    next();
+}
+
+function validateEditProject(req, res, next) {
+    // do your magic!
+    const body = req.body;
+
+    if(Object.keys(body).length === 0){
+        res.status(400).json({ message: "missing project data" })
+    }
+    next();
+}
 
 module.exports = router;
